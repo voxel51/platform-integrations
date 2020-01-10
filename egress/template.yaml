@@ -1,0 +1,69 @@
+AWSTemplateFormatVersion: '2010-09-09'
+Transform: AWS::Serverless-2016-10-31
+Description: >
+  egress-test-client
+
+# More info about Globals: https://github.com/awslabs/serverless-application-model/blob/master/docs/globals.rst
+Globals:
+  Function:
+    Timeout: 6
+
+Resources:
+  EgressProtoFunction:
+    Type: AWS::Serverless::Function # More info about Function Resource: https://github.com/awslabs/serverless-application-model/blob/master/versions/2016-10-31.md#awsserverlessfunction
+    Properties:
+      CodeUri: egress-client/
+      Handler: main.lambda_handler
+      Runtime: python3.8
+      Environment:
+        Variables:
+          API_PRIV_KEY:
+            Ref: ApiPrivKey
+          API_TOKEN_ID:
+            Ref: ApiTokenID
+          API_BASE_URL:
+            Ref: ApiBaseUrl
+      Policies:
+        - Version: '2012-10-17'
+          Statement:
+            - Effect: Allow
+              Action:
+                - 's3:PutObject'
+                - 's3:PutObjectACL'
+              Resource: !Sub 'arn:aws:s3:::v51-test-egress-${AWS::AccountId}/*'
+      Events:
+        TestRoute:
+          Type: Api # More info about API Event Source: https://github.com/awslabs/serverless-application-model/blob/master/versions/2016-10-31.md#api
+          Properties:
+            Path: /test
+            Method: post
+  UploadBucket:
+    Type: AWS::S3::Bucket
+    Properties:
+      BucketName: !Sub 'v51-test-egress-${AWS::AccountId}'
+
+
+Parameters:
+  ApiPrivKey:
+    Type: String
+    Default: "NOPE"
+  ApiTokenID:
+    Type: String
+    Default: "NOPE"
+  ApiBaseUrl:
+    Type: String
+    Default: "NOPE"
+
+Outputs:
+  # ServerlessRestApi is an implicit API created out of Events key under Serverless::Function
+  # Find out more about other implicit resources you can reference within SAM
+  # https://github.com/awslabs/serverless-application-model/blob/master/docs/internals/generated_resources.rst#api
+  EgressAPI:
+    Description: "API Gateway endpoint URL for Prod stage for Hello World function"
+    Value: !Sub "https://${ServerlessRestApi}.execute-api.${AWS::Region}.amazonaws.com/Prod/hello/"
+  EgressProtoFunction:
+    Description: "Hello World Lambda Function ARN"
+    Value: !GetAtt EgressProtoFunction.Arn
+  EgressProtoFunctionIamRole:
+    Description: "Implicit IAM Role created for Hello World function"
+    Value: !GetAtt EgressProtoFunctionRole.Arn

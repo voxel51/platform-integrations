@@ -1,0 +1,3 @@
+[submodule "egress/api-py"]
+	path = egress/api-py
+	url = git@github.com:voxel51/api-py.git

@@ -13,14 +13,14 @@ a more permanent storage location of their choice.  This example client will dem
 to achieve that using AWS Lambda, S3, and APIGateway - all built and commissioned by using the SAM build tool!
 
 ### What does it deploy?
-This system is deployed with an APIGateway, Lambda Function, and S3 bucket which are created if they do not
+This system is deployed with an `APIGateway`, `Lambda Function`, and `S3` bucket which are created if they do not
 already exist.  You may customize this of course to integrate with other infrastructure, which can be done via the AWS
 console or the SAM build templates.
 
 ### How it works
 This system provides the user a fixed URL with an API route that accepts POST requests (the APIGateway).  
-This URL can then be provided to the Voxel51 Platform as a WebHook.  When an event occurs on the Platform, it checks
-if any WebHooks are subscribed to that event, and sends a message via a HTTP POST request to the user-provided URL.
+This URL can then be provided to the Voxel51 Platform as a Webhook.  When an event occurs on the Platform, it checks
+if any Webhooks are subscribed to that event, and sends a message via a HTTP POST request to the user-provided URL.
 The Lambda Function is the serverless application that will recieve these requests routed via the APIGateway.  
 The Lambda Function "Handler" code is then invoked, which can parse data off the request (`event`) and do anything the user desires.  
 In this example, we grab the `id` and check that the event is a `job_complete` event.  With these two conditions satisfied, we can then

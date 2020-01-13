@@ -55,7 +55,7 @@ sam build -m requirements.txt --use-container
 ### Local development
 SAM provides a lot of capability to test and run your system locally before deploying AWS resources.
 ```bash
-sam local invoke -e event.json -env-vars env.json
+sam local invoke -e event.json --env-vars env.json
 ```
  - `sam local invoke` invokes the Lambda function using docker locally
  - `event.json` is a mock request object to send to the Lambda function
@@ -84,3 +84,12 @@ To deploy with your saved or default settings:
 sam deploy
 ```
 
+After running deployment, the CLI will output the gateway url that was generated based on your configurations:
+Example: `https://<hash>.execute-api.<region>.amazonaws.com/Prod/job-complete`  
+This URL is also available via the AWS Console.
+
+This URL is to be supplied to the Platform Webhooks via the Platform Console UI which you can access via:  
+`https://<console-domain>/account/webhooks`  
+For this example, you will want to check the "Job Complete" event, paste the AWS-provided URL, and click "Create".  That's it!  
+
+Everytime a job completes for your Platform user, this Lambda function will be invoked and will download job-outputs to the S3 bucket of your choice!

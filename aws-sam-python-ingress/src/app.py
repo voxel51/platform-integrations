@@ -11,10 +11,13 @@ import urllib
 from datetime import datetime, timedelta
 
 
+from botocore.exceptions import ClientError
 from voxel51.users.api import API
 from voxel51.users.auth import Token
-from botocore.exceptions import ClientError
+from voxel51.users.jobs import JobRequest, JobComputeMode
 import boto3
+
+ANALYTICS = os.getenv("ANALYTICS")
 
 # --------------- Helper Functions ------------------
 def get_secret():
@@ -102,13 +105,26 @@ def lambda_handler(event, context):
         api_token = {"access_token": json.loads(get_secret())}
         api = API(token=Token(api_token))
 
+        # Post data as URL.
         url, expiration_date = create_presigned_url(bucket_name, object_key)
         mime_type = mimetypes.guess_type(object_key)[0]
         metadata = api.post_data_as_url(
             url, object_key, mime_type, object_size, expiration_date
         )
 
-        return metadata
+        # Upload job request(s) on specified analytics to platform.
+        data_id = metadata["id"]
+        version = None
+        compute_mode = JobComputeMode.BEST
+        job_metadata = []
+
+        for analytic in ANALYTICS:
+            job_request = JobRequest(analytic, version=version, compute_mode=compute_mode)
+            job_request.set_input("video", data_id=data_id)
+            job_metadata += [api.upload_job_request(job_request, f"{object_key}-{analytic}", auto_start=True)]
+
+        return job_metadata
+
     except Exception as e:
         print(
             "Error processing object {} from bucket {}. Event {}".format(

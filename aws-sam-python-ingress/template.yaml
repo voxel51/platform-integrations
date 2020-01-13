@@ -4,6 +4,9 @@ Transform: 'AWS::Serverless-2016-10-31'
 Description: SAM app that automatically uploads newly-created S3 Objects to the Voxel51 Platform using presigned URLs.
 
 Parameters:
+  Analytics:
+    Type: String
+    Default: ''
   Voxel51ApiToken:
     Type: String
     Default: ''
@@ -19,6 +22,8 @@ Resources:
       Timeout: 60
       Environment:
         Variables:
+          ANALYTICS:
+            Ref: Analytics
           SECRET_ARN:
             Ref: ApiToken
       Policies:

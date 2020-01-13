@@ -23,7 +23,7 @@ Resources:
             Ref: ApiTokenID
           API_BASE_URL:
             Ref: ApiBaseUrl
-      Policies:
+      Policies: # This policy allows us to put objects in the S3 bucket
         - Version: '2012-10-17'
           Statement:
             - Effect: Allow
@@ -32,38 +32,38 @@ Resources:
                 - 's3:PutObjectACL'
               Resource: !Sub 'arn:aws:s3:::v51-test-egress-${AWS::AccountId}/*'
       Events:
-        TestRoute:
+        JobCompleteRoute:
           Type: Api # More info about API Event Source: https://github.com/awslabs/serverless-application-model/blob/master/versions/2016-10-31.md#api
           Properties:
-            Path: /test
+            Path: /job-complete
             Method: post
   UploadBucket:
     Type: AWS::S3::Bucket
     Properties:
       BucketName: !Sub 'v51-test-egress-${AWS::AccountId}'
 
-
+# Provide your API token key, url, and ID here. Or change them in the AWS console directly after deployment
 Parameters:
   ApiPrivKey:
     Type: String
-    Default: "NOPE"
+    Default: "< REPLACE ME! >"
   ApiTokenID:
     Type: String
-    Default: "NOPE"
+    Default: "< REPLACE ME! >"
   ApiBaseUrl:
     Type: String
-    Default: "NOPE"
+    Default: "< REPLACE ME! >"
 
 Outputs:
   # ServerlessRestApi is an implicit API created out of Events key under Serverless::Function
   # Find out more about other implicit resources you can reference within SAM
   # https://github.com/awslabs/serverless-application-model/blob/master/docs/internals/generated_resources.rst#api
   EgressAPI:
-    Description: "API Gateway endpoint URL for Prod stage for Hello World function"
-    Value: !Sub "https://${ServerlessRestApi}.execute-api.${AWS::Region}.amazonaws.com/Prod/hello/"
+    Description: "API Gateway endpoint URL"
+    Value: !Sub "https://${ServerlessRestApi}.execute-api.${AWS::Region}.amazonaws.com/Prod/job-complete"
   EgressProtoFunction:
-    Description: "Hello World Lambda Function ARN"
+    Description: "Lambda Function ARN"
     Value: !GetAtt EgressProtoFunction.Arn
   EgressProtoFunctionIamRole:
-    Description: "Implicit IAM Role created for Hello World function"
+    Description: "Implicit IAM Role created for Lambda Function"
     Value: !GetAtt EgressProtoFunctionRole.Arn

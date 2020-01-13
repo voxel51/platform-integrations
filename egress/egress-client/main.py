@@ -7,6 +7,7 @@ Egress Client Example for the Voxel51 Platform API Webhook Handler.
 '''
 from voxel51.users.api import API
 from voxel51.users.auth import Token
+import eta.core.video as etav
 import json
 import boto3
 
@@ -41,6 +42,7 @@ def lambda_handler(event, context):
         Object with "statusCode"
     '''
     try:
+        # ############# Process Request ##############
         # Make sure request has a body
         body = event.get("body")
         if not body:
@@ -62,6 +64,7 @@ def lambda_handler(event, context):
             print("Wrong event type: {}".format(event_type))
             return {"statusCode": 400}
 
+        # ############# Retrieve Output from API ##############
         # AWS Lambda note: the /tmp directory is the only writable part of the
         # virtual file system during lambda's runtime
 
@@ -72,6 +75,15 @@ def lambda_handler(event, context):
         api = API(token=Token(token_dict))
         # Download the output to local disk
         api.download_job_output(job_id, job_output_path)
+
+        # ############# Process Label Data ##############
+        # Read the file in as an ETA VideoLabels object
+        video_labels = etav.VideoLabels.from_json(job_output_path)
+        print(video_labels)
+
+        # Translate to your label data format here!
+
+        # ############# Upload to Storage ##############
         with open(job_output_path, "rb") as read_stream:
 
             # Upload to S3 bucket for storage

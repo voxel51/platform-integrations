@@ -1,3 +1,4 @@
 .idea/
 .aws-sam/
 *.pyc
+env.json

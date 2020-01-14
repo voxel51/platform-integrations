@@ -2,7 +2,7 @@
 
 | You will need a Voxel51 Platform account to integrate with Slack.
 
-This guide will give you an example for how to set up a Slack webhook that integrates with the Voxel51 Platform. This example uses Google Cloud Functions as the client application that sits in-between the Platform and Slack to do the message translating that the Slack webhooks require. You can build out this application using any serverless function provider, like AWS Lambda, or even your own server.
+This guide will give you an example for how to set up a Slack webhook that integrates with the Voxel51 Platform. This example uses [Google Cloud Functions](https://cloud.google.com/functions/) as the client application that sits in-between the Platform and Slack to do the message translating that the Slack webhooks require. You can build out this application using any serverless function provider, like AWS Lambda, or even your own server.
 
 ## Setting up the Slack application
 To integrate the platform with Slack, you can easily set up a webhook
@@ -17,7 +17,7 @@ Once you have a webhook URL from Slack, proceed with the following steps to hook
 
 1. In your Voxel51 Platform, go to *Account > Webhooks*.
 2. Create a new webhook by pasting in the Slack webhook URL and subscribing to the desired events.
-3. Set the client 
+3. Set the client, detailed for Google Cloud Functions below.
 
 In this folder there is a very simple example of a client application entrypoint that can be run as a Google Cloud Function. Below are the steps you can take to set up a Cloud Function to serve the webhook.
 

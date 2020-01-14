@@ -13,9 +13,9 @@ to get started.
 
 ## Integrating with the Platform
 
-Once you have a webhook URL, proceed with the following steps to hook it all up:
+Once you have a webhook URL from Slack, proceed with the following steps to hook it all up:
 
-1. In your Voxel51 Platform, go to Account > Web Hooks.
+1. In your Voxel51 Platform, go to *Account > Webhooks*.
 2. Create a new webhook by pasting in the Slack webhook URL and subscribing to the desired events.
 3. Set the client 
 

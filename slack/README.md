@@ -2,6 +2,8 @@
 
 | You will need a Voxel51 Platform account to integrate with Slack.
 
+This guide will give you an example for how to set up a Slack webhook that integrates with the Voxel51 Platform. This example uses Google Cloud Functions as the client application that sits in-between the Platform and Slack to do the message translating that the Slack webhooks require. You can build out this application using any serverless function provider, like AWS Lambda, or even your own server.
+
 ## Setting up the Slack application
 To integrate the platform with Slack, you can easily set up a webhook
 for a specific slack channel.

@@ -17,7 +17,7 @@ from voxel51.users.auth import Token
 from voxel51.users.jobs import JobRequest, JobComputeMode
 import boto3
 
-ANALYTICS = os.getenv("ANALYTICS")
+ANALYTIC_NAMES = os.getenv("ANALYTIC_NAMES")
 
 # --------------- Helper Functions ------------------
 def get_secret():
@@ -102,8 +102,9 @@ def lambda_handler(event, context):
 
     try:
         # Authenticate to Voxel51 Platform.
-        api_token = {"access_token": json.loads(get_secret())}
-        api = API(token=Token(api_token))
+        api_token = json.loads(get_secret())
+        os.environ["VOXEL51_PRIVATE_KEY"] = api_token["private_key"]
+        api = API()
 
         # Post data as URL.
         url, expiration_date = create_presigned_url(bucket_name, object_key)
@@ -118,7 +119,7 @@ def lambda_handler(event, context):
         compute_mode = JobComputeMode.BEST
         job_metadata = []
 
-        for analytic in ANALYTICS:
+        for analytic in ANALYTIC_NAMES:
             job_request = JobRequest(analytic, version=version, compute_mode=compute_mode)
             job_request.set_input("video", data_id=data_id)
             job_metadata += [api.upload_job_request(job_request, f"{object_key}-{analytic}", auto_start=True)]

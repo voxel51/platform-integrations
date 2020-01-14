@@ -92,4 +92,4 @@ This URL is to be supplied to the Platform Webhooks via the Platform Console UI 
 `https://<console-domain>/account/webhooks`  
 For this example, you will want to check the "Job Complete" event, paste the AWS-provided URL, and click "Create".  That's it!  
 
-Everytime a job completes for your Platform user, this Lambda function will be invoked and will download job-outputs to the S3 bucket of your choice!
+Every time a job completes for your Platform user, this Lambda function will be invoked and will download job-outputs to the S3 bucket of your choice!

@@ -23,6 +23,8 @@ Resources:
             Ref: ApiTokenID
           API_BASE_URL:
             Ref: ApiBaseUrl
+          BUCKET_NAME:
+            Ref: BucketName
       Policies: # This policy allows us to put objects in the S3 bucket
         - Version: '2012-10-17'
           Statement:
@@ -53,6 +55,9 @@ Parameters:
   ApiBaseUrl:
     Type: String
     Default: "< REPLACE ME! >"
+  BucketName:
+    Type: String
+    Default: 'v51-test-egress-${AWS::AccountId}'
 
 Outputs:
   # ServerlessRestApi is an implicit API created out of Events key under Serverless::Function

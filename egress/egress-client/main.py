@@ -8,10 +8,12 @@ Egress Client Example for the Voxel51 Platform API Webhook Handler.
 from voxel51.users.api import API
 from voxel51.users.auth import Token
 import eta.core.video as etav
+import eta.core.data as etad
+import eta.core.storage as etas
 import json
-import boto3
-
 import os
+
+BUCKET = os.environ["BUCKET_NAME"]
 
 token_dict = {
     "access_token": {
@@ -79,22 +81,28 @@ def lambda_handler(event, context):
         # ############# Process Label Data ##############
         # Read the file in as an ETA VideoLabels object
         video_labels = etav.VideoLabels.from_json(job_output_path)
-        print(video_labels)
 
-        # Translate to your label data format here!
+        # # Translate to your label data format here!
 
-        # ############# Upload to Storage ##############
-        with open(job_output_path, "rb") as read_stream:
+        # Example of manipulating VideoLabels!
+        video_labels.add_video_attribute(
+            etad.CategoricalAttribute("Video-Quality", "Amazing"))
+        # print(video_labels)
 
-            # Upload to S3 bucket for storage
-            path_on_bucket = "labels/" + job_id + ".json"
-            client = boto3.client("s3")
-            client.put_object(Body=read_stream,
-                              Bucket="v51-test-egress-268586343424",
-                              Key=path_on_bucket)
+        # # ############# Upload to Storage ##############
+        path_on_bucket = "s3://{}/labels/{}.json".format(BUCKET, job_id)
+        client = etas.S3StorageClient()
+        # video_labels is already in memory so use upload_bytes
+        client.upload_bytes(video_labels.to_str(pretty_print=False),
+                            path_on_bucket, content_type="application/json")
+
+        # Or you can upload the file on disk
+        # client.upload(job_output_path, path_on_bucket,
+        #               content_type="application/json")
 
         # For debug and CloudWatch logs
         print({"msg": msg, "event_type": event_type})
+
         # Return 200 on success!
         return {"statusCode": 200}
 

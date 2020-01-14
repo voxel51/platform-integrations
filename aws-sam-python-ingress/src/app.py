@@ -17,9 +17,16 @@ from voxel51.users.auth import Token
 from voxel51.users.jobs import JobRequest, JobComputeMode
 import boto3
 
-ANALYTIC_NAMES = os.getenv("ANALYTIC_NAMES")
 
 # --------------- Helper Functions ------------------
+def get_analytic_names():
+    """Retrieve names of analytics to run on data.
+
+    :return: analytic_names as a List of strings.
+    """
+     return os.getenv("ANALYTIC_NAMES", "").split()
+
+
 def get_secret():
     """Retrieve a secret from Secrets Manager.
 
@@ -121,7 +128,7 @@ def lambda_handler(event, context):
         compute_mode = JobComputeMode.BEST
         job_metadata = []
 
-        for analytic in ANALYTIC_NAMES:
+        for analytic in get_analytic_names():
             job_request = JobRequest(analytic, version=version, compute_mode=compute_mode)
             job_request.set_input("video", data_id=data_id)
             job_metadata += [api.upload_job_request(job_request, f"{object_key}-{analytic}", auto_start=True)]

@@ -103,7 +103,7 @@ def lambda_handler(event, context):
     try:
         # Authenticate to Voxel51 Platform.
         api_token = json.loads(get_secret())
-        os.environ["VOXEL51_API_PRIVATE_KEY"] = api_token["private_key"]
+        os.environ["VOXEL51_APP_PRIVATE_KEY"] = api_token["private_key"]
         os.environ["VOXEL51_API_BASE_URL"] = api_token["base_api_url"]
         api = API()
 

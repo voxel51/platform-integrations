@@ -24,7 +24,7 @@ def get_analytic_names():
 
     :return: analytic_names as a List of strings.
     """
-     return os.getenv("ANALYTIC_NAMES", "").split()
+     return os.getenv("ANALYTIC_NAMES", "").split(",")
 
 
 def get_secret():

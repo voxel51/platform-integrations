@@ -88,7 +88,6 @@ def create_presigned_url(bucket_name, object_key, expiration=3600):
             "get_object",
             Params={"Bucket": bucket_name, "Key": object_key},
             ExpiresIn=expiration,
-
         )
     except ClientError as e:
         raise e
@@ -129,9 +128,15 @@ def lambda_handler(event, context):
         job_metadata = []
 
         for analytic in get_analytic_names():
-            job_request = JobRequest(analytic, version=version, compute_mode=compute_mode)
+            job_request = JobRequest(
+                analytic, version=version, compute_mode=compute_mode
+            )
             job_request.set_input("video", data_id=data_id)
-            job_metadata += [api.upload_job_request(job_request, f"{object_key}-{analytic}", auto_start=True)]
+            job_metadata += [
+                api.upload_job_request(
+                    job_request, f"{object_key}-{analytic}", auto_start=True
+                )
+            ]
 
         return job_metadata
 

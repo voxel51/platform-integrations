@@ -31,7 +31,7 @@ Resources:
             - Effect: Allow
               Action:
                 - 's3:GetObject'
-              Resource: !Sub 'arn:aws:s3:::${AWS::StackName}-${AWS::Region}-${AWS::AccountId}/*'
+              Resource: !Sub 'arn:aws:s3:::data-${AWS::AccountId}/*'
         - Version: '2012-10-17'
           Statement:
             - Effect: Allow
@@ -51,7 +51,7 @@ Resources:
   SourceBucket:
     Type: 'AWS::S3::Bucket'
     Properties:
-      BucketName: !Sub '${AWS::StackName}-${AWS::Region}-${AWS::AccountId}'
+      BucketName: !Sub 'data-${AWS::AccountId}'
 
   ApiToken:
     Type: 'AWS::SecretsManager::Secret'

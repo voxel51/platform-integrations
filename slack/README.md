@@ -11,7 +11,17 @@ for a specific slack channel.
 | Note that some of the provided notifications happen quite often on the Platform. Be mindful of the channel to which you are sending notifications!
 
 [Follow the steps outlined by Slack](https://api.slack.com/messaging/webhooks) 
-to get started. You should have a webhook URL after you have finished this process.
+to get started. 
+
+For quick reference, you will need to:
+
+1. [Create a new Slack app (if you do not have one already).](https://api.slack.com/apps?new_app=1)
+
+2. Enable incoming webhooks for the app you just created.
+
+3. Use the *Add New Webhook to Workspace* button to create the webhook. 
+
+You should have a webhook URL after you have finished this process.
 
 ## Setting up the Google Cloud Function to integrate with Slack
 
@@ -27,11 +37,16 @@ In this folder there is a very simple example of a client application entrypoint
 
 5. Paste in the relevant source file code (index.js and package.json).
 
-6. Under "Environment variables, networking, timeouts and more" add a new Environment variable called `SLACK_WEBHOOK_URL` and set it to the Slack webhook URL that you created earlier.
+6. Under "Function to execute" beneath the code editor, you need to input the main function
+name (in this case, *sendToSlack*).
 
-7. Click "Create". It will take a few seconds to create the function.
+7. Under "Environment variables, networking, timeouts and more" add a new Environment variable called `SLACK_WEBHOOK_URL` and set it to the Slack webhook URL that you created earlier.
 
-8. Click on the "Trigger" tab and copy the URL provided.
+8. Click "Create". It will take a few seconds to create the function.
+
+9. Click on the newly created function. 
+
+10. Click on the "Trigger" tab and copy the URL provided.
 
 ## Integrating with the Platform
 

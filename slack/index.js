@@ -16,6 +16,7 @@ module.exports.sendToSlack = (req, res) => {
 /*
   Formats data coming from the Platform into a format
   that Slack expects. 
+  "id" and "msg" are fields on the data object coming from the Platform
 */
 const formatData = (data) => {
   return {

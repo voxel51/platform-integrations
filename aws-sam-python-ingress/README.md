@@ -57,7 +57,7 @@ sam deploy \
     --stack-name voxel51-platform-ingress \
     --capabilities CAPABILITY_IAM \
     --parameter-overrides \
-      AnalyticNames="${ANALYTIC_NAMES}"
+      AnalyticNames="${ANALYTIC_NAMES}" \
       Voxel51ApiToken=$(cat ${VOXEL51_API_TOKEN} | jq '.access_token|tostring')
 ```
 

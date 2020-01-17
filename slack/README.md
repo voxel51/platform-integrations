@@ -1,6 +1,6 @@
 # Slack integration
 
-| You will need a Voxel51 Platform account to integrate with Slack.
+> You will need a Voxel51 Platform account to integrate with Slack.
 
 This guide will give you an example for how to set up a Slack webhook that integrates with the Voxel51 Platform. This example uses [Google Cloud Functions](https://cloud.google.com/functions/) as the client application that sits in-between the Platform and Slack to do the message translating that the Slack webhook requires. You can build out this application using any serverless function provider, like [AWS Lambda](https://aws.amazon.com/lambda/), or even your own server. There are a lot of resources out there detailing how to set up Slack webhooks  with AWS Lambda.
 
@@ -8,10 +8,10 @@ This guide will give you an example for how to set up a Slack webhook that integ
 To integrate the platform with Slack, you can easily set up a webhook
 for a specific slack channel.
 
-| Note that some of the provided notifications happen quite often on the Platform. Be mindful of the channel to which you are sending notifications!
+> Note that some of the provided notifications happen quite often on the Platform. Be mindful of the channel to which you are sending notifications!
 
-[Follow the steps outlined by Slack](https://api.slack.com/messaging/webhooks) 
-to get started. 
+[Follow the steps outlined by Slack](https://api.slack.com/messaging/webhooks)
+to get started.
 
 For quick reference, you will need to:
 
@@ -19,7 +19,7 @@ For quick reference, you will need to:
 
 2. Enable incoming webhooks for the app you just created.
 
-3. Use the *Add New Webhook to Workspace* button to create the webhook. 
+3. Use the *Add New Webhook to Workspace* button to create the webhook.
 
 You should have a webhook URL after you have finished this process.
 
@@ -44,7 +44,7 @@ name (in this case, *sendToSlack*).
 
 8. Click "Create". It will take a few seconds to create the function.
 
-9. Click on the newly created function. 
+9. Click on the newly created function.
 
 10. Click on the "Trigger" tab and copy the URL provided.
 

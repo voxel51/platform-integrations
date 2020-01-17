@@ -68,4 +68,4 @@ Werkzeug==0.16.0
 wrapt==1.11.2
 zipp==0.6.0
 git+git://github.com/voxel51/api-py.git@develop
-git+git://github.com/voxel51/eta.git@install-lite
+git+git://github.com/voxel51/eta.git@develop

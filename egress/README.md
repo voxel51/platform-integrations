@@ -13,7 +13,7 @@ a more permanent storage location of their choice.  This example client will dem
 to achieve that using AWS Lambda, S3, and APIGateway - all built and commissioned by using the SAM build tool!
 
 ### What does it deploy?
-This system is deployed with an `APIGateway`, `Lambda Function`, and `S3` bucket which are created if they do not
+This system is deployed with an `API Gateway`, `AWS Lambda`, and `S3` bucket which are created if they do not
 already exist.  You may customize this of course to integrate with other infrastructure, which can be done via the AWS
 console or the SAM build templates.
 

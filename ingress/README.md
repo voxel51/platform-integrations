@@ -1,4 +1,4 @@
-# aws-sam-python-ingress
+# Voxel51 AWS Igress Client
 This is an AWS SAM app that uses automatically uploads newly-created S3 Objects
 to the Voxel51 Platform using presigned URLs.
 

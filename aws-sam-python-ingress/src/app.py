@@ -11,12 +11,22 @@ import urllib
 from datetime import datetime, timedelta
 
 
+from botocore.exceptions import ClientError
 from voxel51.users.api import API
 from voxel51.users.auth import Token
-from botocore.exceptions import ClientError
+from voxel51.users.jobs import JobRequest, JobComputeMode
 import boto3
 
+
 # --------------- Helper Functions ------------------
+def get_analytic_names():
+    """Retrieve names of analytics to run on data.
+
+    :return: analytic_names as a List of strings.
+    """
+    return os.getenv("ANALYTIC_NAMES", "").replace(",", " ").split()
+
+
 def get_secret():
     """Retrieve a secret from Secrets Manager.
 
@@ -99,16 +109,37 @@ def lambda_handler(event, context):
 
     try:
         # Authenticate to Voxel51 Platform.
-        api_token = {"access_token": json.loads(get_secret())}
-        api = API(token=Token(api_token))
+        api_token = json.loads(get_secret())
+        os.environ["VOXEL51_API_PRIVATE_KEY"] = api_token["private_key"]
+        os.environ["VOXEL51_API_BASE_URL"] = api_token["base_api_url"]
+        api = API()
 
+        # Post data as URL.
         url, expiration_date = create_presigned_url(bucket_name, object_key)
         mime_type = mimetypes.guess_type(object_key)[0]
         metadata = api.post_data_as_url(
             url, object_key, mime_type, object_size, expiration_date
         )
 
-        return metadata
+        # Upload job request(s) on specified analytics to platform.
+        data_id = metadata["id"]
+        version = None
+        compute_mode = JobComputeMode.BEST
+        job_metadata = []
+
+        for analytic in get_analytic_names():
+            job_request = JobRequest(
+                analytic, version=version, compute_mode=compute_mode
+            )
+            job_request.set_input("video", data_id=data_id)
+            job_metadata += [
+                api.upload_job_request(
+                    job_request, f"{object_key}-{analytic}", auto_start=True
+                )
+            ]
+
+        return job_metadata
+
     except Exception as e:
         print(
             "Error processing object {} from bucket {}. Event {}".format(

@@ -1,1 +1,1 @@
-git+git://github.com/voxel51/api-py.git@requires
+git+git://github.com/voxel51/api-py.git@develop

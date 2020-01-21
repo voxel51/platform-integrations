@@ -15,7 +15,7 @@ Resources:
     Type: 'AWS::Serverless::Function'
     Properties:
       Handler: app.lambda_handler
-      Runtime: python3.7
+      Runtime: python3.6
       CodeUri: src/
       Description: Uploads newly-created S3 Objects to the Voxel51 Platform using presigned URLs.
       Timeout: 60

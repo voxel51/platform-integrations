@@ -1,60 +1,110 @@
-# Slack integration
+# Voxel51 Platform Slack Integration
 
-> You will need a Voxel51 Platform account to integrate with Slack.
+This project demonstrates how to build an app that integrates Slack with the
+Voxel51 Platform. In particular, this example uses
+[Google Cloud Functions](https://cloud.google.com/functions) as the client
+application that sits in-between the Platform and Slack to do the message
+translation that the Slack webhook requires.
 
-This guide will give you an example for how to set up a Slack webhook that integrates with the Voxel51 Platform. This example uses [Google Cloud Functions](https://cloud.google.com/functions/) as the client application that sits in-between the Platform and Slack to do the message translating that the Slack webhook requires. You can build out this application using any serverless function provider, like [AWS Lambda](https://aws.amazon.com/lambda/), or even your own server. There are a lot of resources out there detailing how to set up Slack webhooks  with AWS Lambda.
+Note that you can build out this application using any Functions as a service
+(FaaS) provider, e.g., [AWS Lambda](https://aws.amazon.com/lambda) or even your
+own server. There are many resource available online describing how to setup
+Slack webhooks with AWS Lambda.
+
+
+## Organization
+
+```
+.
+├── README.md                   <-- This README
+├── package.json                <-- Node.js package JSON
+└── src                         <-- Source code for the integration
+    └── index.js                <-- Implementation of Slack conversion
+```
+
+
+## Dependencies
+
+- The [JavaScript Client Library](https://github.com/voxel51/api-js) for the
+Voxel51 Platform
+- A valid [Platform API Token](https://voxel51.com/docs/api/#authentication)
+- [Google Cloud Functions](https://cloud.google.com/functions)
+
 
 ## Setting up the Slack application
-To integrate the platform with Slack, you can easily set up a webhook
-for a specific slack channel.
 
-> Note that some of the provided notifications happen quite often on the Platform. Be mindful of the channel to which you are sending notifications!
+To integrate the platform with Slack, you can easily set up a webhook for a
+specific Slack channel.
 
-[Follow the steps outlined by Slack](https://api.slack.com/messaging/webhooks)
-to get started.
+> Note that some of the provided notifications, such as `job_complete`, may
+> occur very frequently on the Platform. So, be mindful of the Slack channel
+> to which you are sending notifications!
+
+First, [follow the steps](https://api.slack.com/messaging/webhooks) outlined by
+Slack to get started.
 
 For quick reference, you will need to:
 
-1. [Create a new Slack app (if you do not have one already).](https://api.slack.com/apps?new_app=1)
-
+1. [Create a Slack app](https://api.slack.com/apps?new_app=1) (if necessary).
 2. Enable incoming webhooks for the app you just created.
-
 3. Use the *Add New Webhook to Workspace* button to create the webhook.
 
-You should have a webhook URL after you have finished this process.
+After you complete this process, you should be provided a webhook URL.
 
-## Setting up the Google Cloud Function to integrate with Slack
 
-In this folder there is a very simple example of a client application entrypoint that can be run as a Google Cloud Function. Below are the steps you can take to set up a Cloud Function to serve the webhook.
+## Setting up the Cloud Function
 
-1. Log into your [Google Cloud Console](https://console.cloud.google.com/login) and navigate to the [Cloud Functions](https://console.cloud.google.com/functions) page.
+This project contains a very simple example of a client application entrypoint
+that can be run using Google Cloud Functions.
 
-2. In the top navigation bar click "Create Function".
+The following steps describe how to setup a Cloud Function to serve the
+webhook:
 
-3. Give the function a reasonable name, and leave the rest as defaults.
+1. Log into your [Google Cloud Console](https://console.cloud.google.com/login)
+and navigate to the
+[Cloud Functions](https://console.cloud.google.com/functions) page
 
-4. In the Inline Editor under "Source code" select Node.js 10 (Beta) (or your preferred language).
+2. In the top navigation bar click "Create Function"
 
-5. Paste in the relevant source file code (index.js and package.json).
+3. Give the function a reasonable name, and leave the rest as defaults
 
-6. Under "Function to execute" beneath the code editor, you need to input the main function
-name (in this case, *sendToSlack*).
+4. In the Inline Editor under "Source code" select `Node.js 10 (Beta)`
+(or your preferred language)
 
-7. Under "Environment variables, networking, timeouts and more" add a new Environment variable called `SLACK_WEBHOOK_URL` and set it to the Slack webhook URL that you created earlier.
+5. Paste in the relevant source file code (here, `index.js` and `package.json`)
 
-8. Click "Create". It will take a few seconds to create the function.
+6. Under "Function to execute" beneath the code editor, you need to input the
+main function name (here, `sendToSlack`)
 
-9. Click on the newly created function.
+7. Under "Environment variables, networking, timeouts and more" add a new
+Environment variable called `SLACK_WEBHOOK_URL` and set it to the Slack webhook
+URL that you created earlier
 
-10. Click on the "Trigger" tab and copy the URL provided.
+8. Click "Create". It may take a few seconds to create the function
+
+9. Click on the newly created function
+
+10. Click on the "Trigger" tab and copy the URL provided
+
 
 ## Integrating with the Platform
 
-Once you have the trigger URL from the Cloud Function you set up above, proceed with the following steps to hook it all up:
+Once you have the trigger URL from the Cloud Function you set up in the
+previous section, proceed with the following steps to configure the webhook on
+the Platform:
 
-1. In your Voxel51 Platform, go to *Account > Webhooks*.
-2. Create a new webhook by pasting in the URL and subscribing to the desired events.
-3. Submit the webhook.
-4. Use the Platform and look for notifications in Slack!
+1. Navigate to https://console.voxel51.com/account/webhooks in your Platform
+Console Account
+
+2. Create a webhook by pasting the URL and subscribing to the desired events
+
+3. Press submit to register the webhook
+
+The integration should now be live. Use the Platform and look for notifications
+in Slack!
 
 
+## Copyright
+
+Copyright 2017-2020, Voxel51, Inc.<br>
+[voxel51.com](https://voxel51.com)

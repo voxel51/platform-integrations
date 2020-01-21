@@ -1,21 +1,26 @@
 '''
-Egress Client Example for the Voxel51 Platform API Webhook Handler.
+AWS Lambda function that serves as an example for how to automate data egress
+from the Voxel51 Platform.
 
 | Copyright 2017-2020, Voxel51, Inc.
 | `voxel51.com <https://voxel51.com/>`_
 |
 '''
-from voxel51.users.api import API
-from voxel51.users.auth import Token
-import eta.core.video as etav
-import eta.core.data as etad
-import eta.core.storage as etas
 import json
 import os
 
+import eta.core.data as etad
+import eta.core.storage as etas
+import eta.core.video as etav
+
+from voxel51.users.api import API
+from voxel51.users.auth import Token
+
+
 BUCKET = os.environ["BUCKET_NAME"]
 
-token_dict = {
+
+TOKEN_DICT = {
     "access_token": {
         "private_key": os.environ["API_PRIV_KEY"],
         "created_at": "nobodycares",
@@ -26,22 +31,28 @@ token_dict = {
 
 
 def lambda_handler(event, context):
-    ''' Lambda function entry point, defined in the SAM template.yaml "Handler"
+    '''Lambda function entrypoint, defined in the SAM `template.yaml` handler.
+
     This function should parse POST body data for the message from the API's
     webhook request, which is structured as:
+    ```
     {
-        "id":<id of Platform object>
-        "event":<event>
-        "msg":<misc str data about event>
+        "id": <id of Platform object>
+        "event": <event>
+        "msg": <misc string data about event>
     }
+    ```
+
     The event key in the request object should only be one of the events this
     webhook was subscribed to.
 
     Args:
-        event: object with request data, Platform API request is on event.body
-        context:
+        event: the event dictionary with the Platform API request stored in the
+            `body` key
+        context: the context
+
     Returns:
-        Object with "statusCode"
+        a dictionary with `statusCode` key
     '''
     try:
         # ############# Process Request ##############
@@ -74,7 +85,8 @@ def lambda_handler(event, context):
         job_output_path = os.path.join("/tmp", job_id + ".json")
 
         # Create an authenticated connection to the API with your token
-        api = API(token=Token(token_dict))
+        api = API(token=Token(TOKEN_DICT))
+
         # Download the output to local disk
         api.download_job_output(job_id, job_output_path)
 
@@ -82,12 +94,11 @@ def lambda_handler(event, context):
         # Read the file in as an ETA VideoLabels object
         video_labels = etav.VideoLabels.from_json(job_output_path)
 
-        # # Translate to your label data format here!
+        # Translate to your label data format here!
 
-        # Example of manipulating VideoLabels!
+        # Example of manipulating the VideoLabels!
         video_labels.add_video_attribute(
             etad.CategoricalAttribute("Video-Quality", "Amazing"))
-        # print(video_labels)
 
         # # ############# Upload to Storage ##############
         path_on_bucket = "s3://{}/labels/{}.json".format(BUCKET, job_id)
@@ -107,6 +118,6 @@ def lambda_handler(event, context):
         return {"statusCode": 200}
 
     except Exception as e:
-        # If anything goes wrong return 500, and view logs for error
+        # If anything goes wrong return 500 and view logs for error
         print(e)
         return {"statusCode": 500}

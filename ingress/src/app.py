@@ -1,44 +1,49 @@
-"""
-AWS Lambda function that serves as an example for how to automate data ingress to the
-Voxel51 Platform.
-"""
+'''
+AWS Lambda function that serves as an example for how to automate data ingress
+to the Voxel51 Platform.
 
+| Copyright 2017-2020, Voxel51, Inc.
+| `voxel51.com <https://voxel51.com/>`_
+|
+'''
 import base64
+from datetime import datetime, timedelta
 import json
 import mimetypes
 import os
 import urllib
-from datetime import datetime, timedelta
 
-
+import boto3
 from botocore.exceptions import ClientError
+
 from voxel51.users.api import API
 from voxel51.users.auth import Token
 from voxel51.users.jobs import JobRequest, JobComputeMode
-import boto3
 
 
-# --------------- Helper Functions ------------------
 def get_analytic_names():
-    """Retrieve names of analytics to run on data.
+    '''Retrieve names of analytics to run on data.
 
-    :return: analytic_names as a List of strings.
-    """
-    return os.getenv("ANALYTIC_NAMES", "").replace(",", " ").split()
+    Returns:
+        the list of analytic names
+    '''
+    analytic_names = os.getenv("ANALYTIC_NAMES", "")
+    return analytic_names.split(",") if analytic_names else []
 
 
 def get_secret():
-    """Retrieve a secret from Secrets Manager.
+    '''Retrieves a secret from Secrets Manager.
 
-    :return: secret as string.
-    """
-
+    Returns:
+        a secret string
+    '''
     secret_arn = os.environ["SECRET_ARN"]
 
     client = boto3.client("secretsmanager")
 
     try:
-        get_secret_value_response = client.get_secret_value(SecretId=secret_arn)
+        get_secret_value_response = client.get_secret_value(
+            SecretId=secret_arn)
     except ClientError as e:
         if e.response["Error"]["Code"] == "DecryptionFailureException":
             # Secrets Manager can't decrypt the protected secret text using the
@@ -69,19 +74,23 @@ def get_secret():
             decoded_binary_secret = base64.b64decode(
                 get_secret_value_response["SecretBinary"]
             )
+
     return secret or decoded_binary_secret
 
 
 def create_presigned_url(bucket_name, object_key, expiration=3600):
-    """Generate a presigned URL to share an S3 object
+    '''Generates a presigned URL with GET access to an S3 object.
 
-    :param bucket_name: string
-    :param object_key: string
-    :param expiration: Time in seconds for the presigned URL to remain valid
-    :return: Presigned URL as string.
-    """
+    Args:
+        bucket_name: the name of the bucket
+        object_key: the object key
+        expiration: the time in seconds for the presigned URL to remain valid
 
-    # Generate a presigned URL for the S3 object
+    Returns:
+        url: the presigned URL string
+        expiration_date: a datetime describing the expiration date of the URL
+    '''
+    # Generate a presigned URL for the S3 object.
     s3_client = boto3.client("s3")
     try:
         response = s3_client.generate_presigned_url(
@@ -91,20 +100,28 @@ def create_presigned_url(bucket_name, object_key, expiration=3600):
         )
     except ClientError as e:
         raise e
-    # The response contains the presigned URL
-    expiration_date = (datetime.now() + timedelta(seconds=expiration)).isoformat()
+
+    # The response contains the presigned URL.
+    expiration_date = (
+        datetime.now() + timedelta(seconds=expiration)).isoformat()
     return response, expiration_date
 
 
-# --------------- Main handler ------------------
 def lambda_handler(event, context):
-    """
-    Automatically uploads S3 Objects to Voxel51 Platform as signed URLs.
-    """
+    '''Main handler that automatically uploads S3 objects to the Voxel51
+    Platform as signed URLs and runs the configured analytic(s) on them.
 
+    Args:
+        event: the event dictionary
+        context: the context
+
+    Returns:
+        a list of metadata describing the executed jobs
+    '''
     # Get the object from the event.
     bucket_name = event["Records"][0]["s3"]["bucket"]["name"]
-    object_key = urllib.parse.unquote_plus(event["Records"][0]["s3"]["object"]["key"])
+    object_key = urllib.parse.unquote_plus(
+        event["Records"][0]["s3"]["object"]["key"])
     object_size = event["Records"][0]["s3"]["object"]["size"]
 
     try:
@@ -132,9 +149,10 @@ def lambda_handler(event, context):
                 analytic, version=version, compute_mode=compute_mode
             )
             job_request.set_input("video", data_id=data_id)
+            job_name = "{}-{}".format(object_key, analytic)
             job_metadata += [
                 api.upload_job_request(
-                    job_request, f"{object_key}-{analytic}", auto_start=True
+                    job_request, job_name, auto_start=True
                 )
             ]
 

@@ -30,6 +30,7 @@ Voxel51 Platform
 - [AWS Lambda](https://aws.amazon.com/lambda)
 - [AWS CLI](https://aws.amazon.com/cli)
 - [AWS SAM CLI](https://docs.aws.amazon.com/serverless-application-model/latest/developerguide/serverless-sam-cli-install.html)
+- [AWS Secrets Manager](https://aws.amazon.com/secrets-manager)
 - [Docker Community Edition](https://hub.docker.com/search/?type=edition&offering=community)
 - [jq](https://stedolan.github.io/jq)
 

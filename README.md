@@ -35,13 +35,6 @@ For each new data, a signed URL is generated and posted to the Platform (as
 oppposed to uploading the raw data to the Platform, which would duplicate
 storage), and job(s) are run on that data for the configured analytic(s).
 
-#### Dependencies
-
-- The [Python Client Library](https://github.com/voxel51/api-py) for the
-Voxel51 Platform
-- [AWS S3 Storage](https://aws.amazon.com/s3)
-- [AWS Lambda](https://aws.amazon.com/lambda)
-
 
 ## Platform Egress App
 
@@ -61,14 +54,6 @@ The example Lambda code in this app uses the
 output of the completed job, optionally manipulate or transform it, and then
 upload it to a configurable external S3 bucket.
 
-#### Dependencies
-
-- The [Python Client Library](https://github.com/voxel51/api-py) for the
-Voxel51 Platform
-- [AWS S3 Storage](https://aws.amazon.com/s3)
-- [AWS Lambda](https://aws.amazon.com/lambda)
-- [Amazon API Gateway](https://aws.amazon.com/api-gateway)
-
 
 ## Platform Slack Integration
 
@@ -81,12 +66,6 @@ provide a static URL that is configured as an endpoint for a Platform webhook.
 Internally, the Cloud Function uses the
 [JavaScript Client Library](https://github.com/voxel51/api-js) to parse the
 event data and then publishes the event to Slack.
-
-#### Dependencies
-
-- The [JavaScript Client Library](https://github.com/voxel51/api-js) for the
-Voxel51 Platform
-- [Google Cloud Functions](https://cloud.google.com/functions)
 
 
 ## Copyright

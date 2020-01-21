@@ -26,6 +26,8 @@ on the data.
 - The [Python Client Library](https://github.com/voxel51/api-py) for the
 Voxel51 Platform
 - A valid [Platform API Token](https://voxel51.com/docs/api/#authentication)
+- [AWS S3 Storage](https://aws.amazon.com/s3)
+- [AWS Lambda](https://aws.amazon.com/lambda)
 - [AWS CLI](https://aws.amazon.com/cli)
 - [AWS SAM CLI](https://docs.aws.amazon.com/serverless-application-model/latest/developerguide/serverless-sam-cli-install.html)
 - [Docker Community Edition](https://hub.docker.com/search/?type=edition&offering=community)

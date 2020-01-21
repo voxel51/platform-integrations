@@ -23,11 +23,12 @@ Slack webhooks with AWS Lambda.
 ```
 
 
-## Requirements
+## Dependencies
 
 - The [JavaScript Client Library](https://github.com/voxel51/api-js) for the
 Voxel51 Platform
 - A valid [Platform API Token](https://voxel51.com/docs/api/#authentication)
+- [Google Cloud Functions](https://cloud.google.com/functions)
 
 
 ## Setting up the Slack application

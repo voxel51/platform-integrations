@@ -72,18 +72,20 @@ With this egress client, all job outputs from the Platform will be
 automatically downloaded before they expire on the Platform.
 
 
-## Setup
-
-### Dependencies
+## Dependencies
 
 - The [Python Client Library](https://github.com/voxel51/api-py) for the
 Voxel51 Platform
 - A valid [Platform API Token](https://voxel51.com/docs/api/#authentication)
+- [AWS S3 Storage](https://aws.amazon.com/s3)
+- [AWS Lambda](https://aws.amazon.com/lambda)
+- [Amazon API Gateway](https://aws.amazon.com/api-gateway)
 - [AWS SAM CLI](https://docs.aws.amazon.com/serverless-application-model/latest/developerguide/serverless-sam-cli-install.html)
 - [Python 3](https://www.python.org/downloads)
 - [Docker Community Edition](https://hub.docker.com/search/?type=edition&offering=community)
 
-### Installation
+
+## Installation
 
 1. Install the dependencies listed above.
 2. (optional) `virtualenv egressve`

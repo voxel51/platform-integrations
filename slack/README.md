@@ -6,10 +6,10 @@ Voxel51 Platform. In particular, this example uses
 application that sits in-between the Platform and Slack to do the message
 translation that the Slack webhook requires.
 
-Note that you can build out this application using any serverless function
-provider, e.g., [AWS Lambda](https://aws.amazon.com/lambda) or even your own
-server. There are many resource available online describing how to setup Slack
-webhooks with AWS Lambda.
+Note that you can build out this application using any Functions as a service
+(FaaS) provider, e.g., [AWS Lambda](https://aws.amazon.com/lambda) or even your
+own server. There are many resource available online describing how to setup
+Slack webhooks with AWS Lambda.
 
 
 ## Requirements
@@ -40,10 +40,10 @@ For quick reference, you will need to:
 After you complete this process, you should be provided a webhook URL.
 
 
-## Setting up the Google Cloud Function
+## Setting up the Cloud Function
 
 This project contains a very simple example of a client application entrypoint
-that can be run as a Google Cloud Function.
+that can be run using Google Cloud Functions.
 
 The following steps describe how to setup a Cloud Function to serve the
 webhook:

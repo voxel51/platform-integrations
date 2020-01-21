@@ -3,7 +3,7 @@
 This project demonstrates how to build an
 [AWS Serverless Application Model](https://aws.amazon.com/serverless/sam)
 application that uses [AWS Lambda](https://aws.amazon.com/lambda) to
-automatically uploads all newly-created objects in an S3 Bucket to the Voxel51
+automatically upload all newly-created objects in an S3 Bucket to the Voxel51
 Platform using pre-signed URLs and then run a configurable set of analytic(s)
 on the data.
 

@@ -38,12 +38,12 @@ AWS console or the SAM build templates.
 
 This system provides the user a static URL with an API route that accepts POST
 requests (the API Gateway). This URL is then provided to the Voxel51 Platform
-as a webhook. When an event occurs on the Platform, it checks if any Webhooks
+as a webhook. When an event occurs on the Platform, it checks if any webhooks
 are subscribed to that event, and sends a message via a HTTP POST request to
 the user-provided URL.
 
-The Lambda Function is the serverless application that will recieve these
-requests routed via the API Gateway. The Lambda Function _handler code_ is then
+The Lambda function is the serverless application that will recieve these
+requests routed via the API Gateway. The Lambda function _handler code_ is then
 invoked, which can parse data off the request (the `event`) and do anything
 the user desires.
 
@@ -51,7 +51,7 @@ In this example, we grab the `id` of the Platform job and check that the event
 is a `job_complete` event. With these two conditions satisfied, we then
 download the output of the job with the provided `id` from the Platform. Then
 we upload this data to an external storage location of our choice (in this
-case, an S3 bucket)
+case, an S3 bucket).
 
 With this egress client, all job outputs from the Platform will be
 automatically downloaded before they expire on the Platform.

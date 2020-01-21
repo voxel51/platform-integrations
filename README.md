@@ -46,7 +46,7 @@ configured via your Platform Console account.
 
 When the webhook is configured for `job_complete` events, every job completed
 on your Platform account will send metadata about the completed job to the
-static URL that the Lamda app is configured to process.
+static URL that the Lambda app is configured to process.
 
 The example Lambda code in this app uses the
 [Python Client Library](https://github.com/voxel51/api-py) to download the

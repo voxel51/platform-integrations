@@ -1,31 +1,87 @@
 # Voxel51 Platform Integrations
-This repository contains example implementations of integrations with various services to interact
-with the Voxel51 Platform.  
+
+This repository contains example implementations of integrations with various
+services to interact with the Voxel51 Platform.
+
+Available at
+[https://github.com/voxel51/platform-integrations](https://github.com/voxel51/platform-integrations).
+
+<img src="https://drive.google.com/uc?id=1j0S8pLsopAqF1Ik3rf-CdyAIU4kA0sOP" alt="voxel51-logo.png" width="40%"/>
+
 
 ## Repository Structure
-Each top level folder contains a separate example independent of others, which will show
-how to use the API client libraries to build a component to link other systems or pipelines to the platform.
 
-## Index
+Each top-level folder contains a separate example application that demonstrates
+how to build integrations that link to the Voxel51 Platform in various ways,
+typically leveraging the API client libraries.
 
-### Ingress App
-The Ingress application is AWS Lambda based component that listens to S3 bucket for new Data to run Platform jobs on.  
-The Lambda function is configured to listen on Object Create S3 events from the configured bucket.
-For each new data, a signed url is generated, this url is posted to the Platform as data (to avoid uploading and copying data),
-and a Job is requested on that data for the configured Analytics.
-This app uses the [api-py](https://github.com/voxel51/api-py) client library and AWS S3 and Lambda.
 
-### Egress App
-The Egress application is an AWS Lambda based component that listens to Platform job completion events via a Webhook.
-The Lambda function is created with an API-Gateway which exposes a static url.  This url is then used as a Platform Webhook
-which is configured via the Console.  With this url assigned to "Job Completion" events, each time a job completes this url
-recieves data posted to that url that the Lamda app is configured to process.  The example Lambda code uses the api-py Client 
-library to download the output data for the completed job, optionally manipulate or transform it, and then upload it to
-an output S3 bucket external to the Platform. 
-This app uses the [api-py](https://github.com/voxel51/api-py) client library and AWS S3, Lambda, and API-Gateway.
+## Ingress App
 
-### Slack Integration
-The Slack app demonstrates how the api-js client library can be used with Google Cloud Functions to create a Slack 
-integration.  Just like the Egress App, this uses a GC Function url as a webhook to which any Platform event can
-be subscribed.  As a result the event data can be posted to a Slack channel of your choice.
-This app uses the [api-py](https://github.com/voxel51/api-js) client library, Google Cloud Functions, and Slack.
+The Ingress application is an [AWS Lambda](https://aws.amazon.com/lambda) tool
+that automatically runs Platform jobs on data uploaded to an S3 bucket.
+Specifically, the Lambda function is configured to listen for
+`s3:ObjectCreated` events on a configurable bucket.
+
+For each new data, a signed URL is generated and posted to the Platform (as
+oppposed to uploading the raw data to the Platform, which would duplicate
+storage), and job(s) are run on that data for the configured analytic(s).
+
+#### Dependencies
+
+- The [Python Client Library](https://github.com/voxel51/api-py) for the
+Voxel51 Platform
+- [AWS S3 Storage](https://aws.amazon.com/s3)
+- [AWS Lambda](https://aws.amazon.com/lambda)
+
+
+## Egress App
+
+The Egress application is an [AWS Lambda](https://aws.amazon.com/lambda) tool
+that automatically responds to Platform job completion events configured via a
+Platform webhook. The Lambda function is created with an
+[Amazon API Gateway](https://aws.amazon.com/api-gateway) which exposes a static
+URL. This URL is then used as the endpoint for a Platform webhook, which is
+configured via your Platform Console account.
+
+When the webhook is configured for `job_complete` events, every job completed
+on your Platform account will send metadata about the completed job to the
+static URL that the Lamda app is configured to process.
+
+The example Lambda code in this app uses the
+[Python Client Library](https://github.com/voxel51/api-py) to download the
+output of the completed job, optionally manipulate or transform it, and then
+upload it to a configurable external S3 bucket.
+
+#### Dependencies
+
+- The [Python Client Library](https://github.com/voxel51/api-py) for the
+Voxel51 Platform
+- [AWS S3 Storage](https://aws.amazon.com/s3)
+- [AWS Lambda](https://aws.amazon.com/lambda)
+- [Amazon API Gateway](https://aws.amazon.com/api-gateway)
+
+
+## Slack Integration
+
+The Slack app demonstrates how to build a [Slack](https://slack.com)
+integration that will generate Slack messages in a channel of your choice in
+response to events in your Platform account.
+
+The tool uses [Google Cloud Functions](https://cloud.google.com/functions) to
+provide a static URL that is configured as an endpoint for a Platform webhook.
+Internally, the GCF uses the
+[JavaScript Client Library](https://github.com/voxel51/api-js) to parse the
+event data and then publishes the event to Slack.
+
+#### Dependencies
+
+- The [JavaScript Client Library](https://github.com/voxel51/api-js) for the
+Voxel51 Platform
+- [Google Cloud Functions](https://cloud.google.com/functions)
+
+
+## Copyright
+
+Copyright 2017-2020, Voxel51, Inc.<br>
+[voxel51.com](https://voxel51.com)

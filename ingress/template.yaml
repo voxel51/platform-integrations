@@ -47,7 +47,7 @@ Resources:
               Ref: SourceBucket
             Events:
               - 's3:ObjectCreated:*'
-  
+
   SourceBucket:
     Type: 'AWS::S3::Bucket'
     Properties:

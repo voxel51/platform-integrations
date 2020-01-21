@@ -1,7 +1,7 @@
 {
   "name": "voxel51-platform-notifications",
   "version": "0.0.1",
-  "description": "Slack integration for notifications from the Voxel51 Platform, using Google Cloud Functions",
+  "description": "Slack integration for the Voxel51 Platform",
   "main": "index.js",
   "dependencies": {
     "@slack/webhook": "5.0.1"

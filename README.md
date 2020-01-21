@@ -72,13 +72,13 @@ Voxel51 Platform
 
 ## Platform Slack Integration
 
-The Slack app demonstrates how to build a [Slack](https://slack.com)
+This project demonstrates how to build a [Slack](https://slack.com)
 integration that will generate Slack messages in a channel of your choice in
 response to events in your Platform account.
 
 The tool uses [Google Cloud Functions](https://cloud.google.com/functions) to
 provide a static URL that is configured as an endpoint for a Platform webhook.
-Internally, the GCF uses the
+Internally, the Cloud Function uses the
 [JavaScript Client Library](https://github.com/voxel51/api-js) to parse the
 event data and then publishes the event to Slack.
 

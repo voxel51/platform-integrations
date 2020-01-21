@@ -15,6 +15,13 @@ Each top-level folder contains a separate example application that demonstrates
 how to build integrations that link to the Voxel51 Platform in various ways,
 typically leveraging the API client libraries.
 
+```
+.
+├── README.md                   <-- This README
+├── egress                      <-- Platform egress app
+├── ingress                     <-- Platform ingress app
+└── slack                       <-- Platform Slack integration
+```
 
 ## Ingress App
 

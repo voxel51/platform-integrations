@@ -1,4 +1,4 @@
-# Voxel51 Platform Slack integration
+# Voxel51 Platform Slack Integration
 
 This project demonstrates how to build an app that integrates Slack with the
 Voxel51 Platform. In particular, this example uses

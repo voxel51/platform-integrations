@@ -27,7 +27,8 @@ def get_analytic_names():
     Returns:
         the list of analytic names
     '''
-    return os.getenv("ANALYTIC_NAMES", "").split(",")
+    analytic_names = os.getenv("ANALYTIC_NAMES", "")
+    return analytic_names.split(",") if analytic_names else []
 
 
 def get_secret():

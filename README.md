@@ -23,7 +23,8 @@ typically leveraging the API client libraries.
 └── slack                       <-- Platform Slack integration
 ```
 
-## Ingress App
+
+## Platform Ingress App
 
 The Ingress application is an [AWS Lambda](https://aws.amazon.com/lambda) tool
 that automatically runs Platform jobs on data uploaded to an S3 bucket.
@@ -42,7 +43,7 @@ Voxel51 Platform
 - [AWS Lambda](https://aws.amazon.com/lambda)
 
 
-## Egress App
+## Platform Egress App
 
 The Egress application is an [AWS Lambda](https://aws.amazon.com/lambda) tool
 that automatically responds to Platform job completion events configured via a
@@ -69,7 +70,7 @@ Voxel51 Platform
 - [Amazon API Gateway](https://aws.amazon.com/api-gateway)
 
 
-## Slack Integration
+## Platform Slack Integration
 
 The Slack app demonstrates how to build a [Slack](https://slack.com)
 integration that will generate Slack messages in a channel of your choice in

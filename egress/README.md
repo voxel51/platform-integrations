@@ -10,6 +10,21 @@ purposes of downloading the outputs of completed jobs on the platform to a
 storage location of your choice.
 
 
+## Organization
+
+```
+.
+├── README.md                   <-- This README
+├── event.json                  <-- Example Platform event data
+├── requirements.txt            <-- Lambda function dependencies
+├── samconfig.toml              <-- SAM CLI config file
+├── src                         <-- Source code for the Lambda function
+│   ├── __init__.py
+│   └── app.py                  <-- Lambda function code
+└── template.yaml               <-- SAM template
+```
+
+
 ## Background
 
 ### Motivation

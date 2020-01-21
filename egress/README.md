@@ -163,9 +163,9 @@ https://<hash>.execute-api.<region>.amazonaws.com/Prod/job-complete`
 This URL is also available via the AWS Console.
 
 To configure a Platform webhook, navigate to the webhooks page of your Platform
-Console account at https://staging.console.voxel51.com/account/webhooks.
-In this example, check the `Job Complete` event, paste the gateway URL
-generated above, and click `Create`. That's it!
+Console account at https://console.voxel51.com/account/webhooks. In this
+example, check the `Job Complete` event, paste the gateway URL generated above,
+and click `Create`. That's it!
 
 With this integration enabled, every time a job completes in your Platform
 account, this Lambda function will be invoked and will download the output of

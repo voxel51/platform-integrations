@@ -12,6 +12,17 @@ own server. There are many resource available online describing how to setup
 Slack webhooks with AWS Lambda.
 
 
+## Organization
+
+```
+.
+├── README.md                   <-- This README
+├── package.json                <-- Node.js package JSON
+└── src                         <-- Source code for the integration
+    └── index.js                <-- Implementation of Slack conversion
+```
+
+
 ## Requirements
 
 - The [JavaScript Client Library](https://github.com/voxel51/api-js) for the

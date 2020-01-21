@@ -1,4 +1,4 @@
-# Voxel51 Platform AWS Igress Client
+# Voxel51 Platform AWS Ingress Client
 
 This project demonstrates how to build an
 [AWS Serverless Application Model](https://aws.amazon.com/serverless/sam)

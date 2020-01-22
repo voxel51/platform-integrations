@@ -83,7 +83,7 @@ sam deploy \
     --capabilities CAPABILITY_IAM \
     --parameter-overrides \
       AnalyticNames="${ANALYTIC_NAMES}" \
-      Voxel51ApiToken=$(cat ${VOXEL51_API_TOKEN} | jq '.access_token|tostring')
+      Voxel51ApiToken=$(cat ${VOXEL51_API_TOKEN} | jq 'tostring')
 ```
 
 To see the name of the S3 bucket created after deployment, you can use the

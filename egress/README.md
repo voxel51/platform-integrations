@@ -104,21 +104,42 @@ sam build --use-container
 
 ## Deploy
 
-You will need to specify the name of a bucket you desire to be used or created
-with the egress App:
+Before we can deploy anything, we need an S3 bucket where we can upload our
+Lambda function packaged as a ZIP file. If you don't have an S3 bucket to store
+code artifacts, then this is a good time to create one:
+
+```bash
+BUCKET=BUCKET_NAME
+aws s3 mb s3://${BUCKET}
+```
+
+Next, run the following command to package your Lambda function. The
+`sam package` command creates a deployment package (ZIP file) containing your
+code and dependencies, and uploads them to the S3 bucket you specify.
+
+```bash
+sam package \
+    --template-file .aws-sam/build/template.yaml \
+    --output-template-file packaged.yaml \
+    --s3-bucket ${BUCKET}
+```
+
+To deploy, specify values for the parameters of the app, and run:
 
 ```
+VOXEL51_API_TOKEN=/path/to/your/api-token.json
 OUTPUT_BUCKET='v51-output-bucket-<EXAMPLE>'
-```
 
-To deploy the app, simply run:
-
-```
 sam deploy \
+    --template-file packaged.yaml \
+    --capabilities CAPABILITY_IAM \
+    --stack-name voxel51-platform-egress \
     --parameter-overrides \
     Voxel51ApiToken=$(cat ${VOXEL51_API_TOKEN} | jq 'tostring') \
     OutputBucketName=${OUTPUT_BUCKET}
 ```
+
+Remember the `OUTPUT_BUCKET` is where job outputs will be uploaded to.
 
 After deployment, the CLI will output the gateway URL that was generated based
 on your configurations. An example is:

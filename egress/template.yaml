@@ -3,72 +3,66 @@ Transform: AWS::Serverless-2016-10-31
 
 Description: SAM app that automatically downloads and processes the outputs of completed jobs from the Voxel51 Platform.
 
-# More info about Globals: https://github.com/awslabs/serverless-application-model/blob/master/docs/globals.rst
-Globals:
-  Function:
-    Timeout: 6
+Parameters:
+  Voxel51ApiToken:
+    Type: String
+    Default: ''
+  OutputBucketName:
+    Type: String
+    Default: ''
 
 Resources:
-  EgressProtoFunction:
-    Type: AWS::Serverless::Function # More info about Function Resource: https://github.com/awslabs/serverless-application-model/blob/master/versions/2016-10-31.md#awsserverlessfunction
+  EgressFunction:
+    Type: AWS::Serverless::Function
     Properties:
       CodeUri: src/
       Handler: app.lambda_handler
       Runtime: python3.6
+      Timeout: 180
       Environment:
         Variables:
-          API_PRIV_KEY:
-            Ref: ApiPrivKey
-          API_TOKEN_ID:
-            Ref: ApiTokenID
-          API_BASE_URL:
-            Ref: ApiBaseUrl
+          SECRET_ARN:
+            Ref: ApiToken
           BUCKET_NAME:
-            Ref: BucketName
-      Policies: # This policy allows us to put objects in the S3 bucket
+            Ref: OutputBucketName
+      Policies:
         - Version: '2012-10-17'
           Statement:
             - Effect: Allow
               Action:
                 - 's3:PutObject'
                 - 's3:PutObjectACL'
-              Resource: !Sub 'arn:aws:s3:::v51-test-egress-${AWS::AccountId}/*'
+              Resource: !Sub 'arn:aws:s3:::v51-output-${AWS::AccountId}/*'
+        - Version: '2012-10-17'
+          Statement:
+            - Effect: Allow
+              Action:
+                - 'secretsmanager:GetSecretValue'
+              Resource:
+                Ref: ApiToken
       Events:
         JobCompleteRoute:
-          Type: Api # More info about API Event Source: https://github.com/awslabs/serverless-application-model/blob/master/versions/2016-10-31.md#api
+          Type: Api
           Properties:
             Path: /job-complete
             Method: post
-  UploadBucket:
+  OutputBucket:
     Type: AWS::S3::Bucket
     Properties:
-      BucketName: !Sub 'v51-test-egress-${AWS::AccountId}'
-
-# Provide your API token key, url, and ID here. Or change them in the AWS console directly after deployment
-Parameters:
-  ApiPrivKey:
-    Type: String
-    Default: "< REPLACE ME! >"
-  ApiTokenID:
-    Type: String
-    Default: "< REPLACE ME! >"
-  ApiBaseUrl:
-    Type: String
-    Default: "< REPLACE ME! >"
-  BucketName:
-    Type: String
-    Default: 'v51-test-egress-${AWS::AccountId}'
+      BucketName: !Ref OutputBucketName
+  ApiToken:
+    Type: 'AWS::SecretsManager::Secret'
+    Properties:
+      SecretString:
+        Ref: Voxel51ApiToken
 
 Outputs:
-  # ServerlessRestApi is an implicit API created out of Events key under Serverless::Function
-  # Find out more about other implicit resources you can reference within SAM
-  # https://github.com/awslabs/serverless-application-model/blob/master/docs/internals/generated_resources.rst#api
   EgressAPI:
     Description: "API Gateway endpoint URL"
     Value: !Sub "https://${ServerlessRestApi}.execute-api.${AWS::Region}.amazonaws.com/Prod/job-complete"
-  EgressProtoFunction:
+  EgressFunction:
     Description: "Lambda Function ARN"
-    Value: !GetAtt EgressProtoFunction.Arn
-  EgressProtoFunctionIamRole:
+    Value: !GetAtt EgressFunction.Arn
+  EgressFunctionIamRole:
     Description: "Implicit IAM Role created for Lambda Function"
-    Value: !GetAtt EgressProtoFunctionRole.Arn
+    Value: !GetAtt EgressFunctionRole.Arn

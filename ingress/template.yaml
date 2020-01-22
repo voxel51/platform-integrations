@@ -11,7 +11,7 @@ Parameters:
     Type: String
     Default: ''
 Resources:
-  PostDataAsUrl:
+  IngressFunction:
     Type: 'AWS::Serverless::Function'
     Properties:
       Handler: app.lambda_handler
@@ -31,7 +31,7 @@ Resources:
             - Effect: Allow
               Action:
                 - 's3:GetObject'
-              Resource: !Sub 'arn:aws:s3:::data-${AWS::AccountId}/*'
+              Resource: !Sub 'arn:aws:s3:::v51-input-${AWS::AccountId}/*'
         - Version: '2012-10-17'
           Statement:
             - Effect: Allow
@@ -51,7 +51,7 @@ Resources:
   SourceBucket:
     Type: 'AWS::S3::Bucket'
     Properties:
-      BucketName: !Sub 'data-${AWS::AccountId}'
+      BucketName: !Sub 'v51-input-${AWS::AccountId}'
 
   ApiToken:
     Type: 'AWS::SecretsManager::Secret'

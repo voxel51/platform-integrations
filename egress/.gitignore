@@ -2,3 +2,4 @@
 .aws-sam/
 *.pyc
 env.json
+samconfig.toml

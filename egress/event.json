@@ -1,5 +1,0 @@
-{
-  "body": "{\"id\": \"016f6063-51a1-4948-a827-ce4c31ec53ed\", \"event\":\"job_complete\", \"msg\":\"TEST\"}",
-  "path": "/job-complete",
-  "httpMethod": "POST"
-}

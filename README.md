@@ -23,6 +23,12 @@ typically leveraging the API client libraries.
 └── slack                       <-- Platform Slack integration
 ```
 
+## Platform Integration Diagram
+
+To visualize how the Ingress and Egress Apps interact with the Platform see the image below:
+
+<img src="https://drive.google.com/open?id=1s0zxWVx-WNh1NyYbHr6QKXyTfCmJjvQS" alt="Platform-integration-diagram.png" width="40%"/>
+
 
 ## Platform Ingress App
 

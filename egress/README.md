@@ -99,59 +99,47 @@ application using SAM!
 ## Build
 
 ```
-sam build -m requirements.txt --use-container
+sam build --use-container
 ```
-
-### Local development
-
-SAM provides a lot of capability to test and run your system locally before
-deploying AWS resources.
-
-```
-sam local invoke -e event.json --env-vars env.json
-```
-
- - `sam local invoke` invokes the Lambda function using docker locally
- - `event.json` is a mock request object to send to the Lambda function
- - `env.json` allows a user to specify a local set of environment variables.
- See the provided `env.json-example` for an example.
-
-You can also run the Lambda on a local API server and send full web-requests
-by running:
-
-```
-sam local start-api --port 5000 --env-vars env.json --host 0.0.0.0
-```
-
-The host and ports are optional, but very useful if you are developing this
-locally with other systems. To test the Lambda function via a local API like
-this, you can send a curl'd request like so:
-
-```bash
-curl localhost:5000/job-complete -X POST \
-    -H "Content-Type: application/json" \
-    -d '{"id":<jobid>, "event":"job_complete", "msg":"Test!"}'
-```
-
 
 ## Deploy
 
-To deploy the app, simply run:
+Before we can deploy anything, we need an S3 bucket where we can upload our
+Lambda function packaged as a ZIP file. If you don't have an S3 bucket to store
+code artifacts, then this is a good time to create one:
+
+```bash
+BUCKET=BUCKET_NAME
+aws s3 mb s3://${BUCKET}
+```
+
+Next, run the following command to package your Lambda function. The
+`sam package` command creates a deployment package (ZIP file) containing your
+code and dependencies, and uploads them to the S3 bucket you specify.
+
+```bash
+sam package \
+    --template-file .aws-sam/build/template.yaml \
+    --output-template-file packaged.yaml \
+    --s3-bucket ${BUCKET}
+```
+
+To deploy, specify values for the parameters of the app, and run:
 
 ```
-sam deploy --guided
+VOXEL51_API_TOKEN=/path/to/your/api-token.json
+OUTPUT_BUCKET='v51-output-bucket-<EXAMPLE>'
+
+sam deploy \
+    --template-file packaged.yaml \
+    --capabilities CAPABILITY_IAM \
+    --stack-name voxel51-platform-egress \
+    --parameter-overrides \
+    Voxel51ApiToken=$(cat ${VOXEL51_API_TOKEN} | jq 'tostring') \
+    OutputBucketName=${OUTPUT_BUCKET}
 ```
 
-Using the guided option, the CLI will prompt you for your desired
-configurations for deployment. It will also allow you to save these settings to
-the `samconfig.toml` file to automate future deployments with the same
-settings.
-
-To deploy with your saved or default settings, run:
-
-```
-sam deploy
-```
+Remember the `OUTPUT_BUCKET` is where job outputs will be uploaded to.
 
 After deployment, the CLI will output the gateway URL that was generated based
 on your configurations. An example is:

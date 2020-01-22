@@ -126,10 +126,7 @@ def lambda_handler(event, context):
 
     try:
         # Authenticate to Voxel51 Platform.
-        api_token = json.loads(get_secret())
-        os.environ["VOXEL51_API_PRIVATE_KEY"] = api_token["private_key"]
-        os.environ["VOXEL51_API_BASE_URL"] = api_token["base_api_url"]
-        api = API()
+        api = API(Token.from_str(get_secret()))
 
         # Post data as URL.
         url, expiration_date = create_presigned_url(bucket_name, object_key)

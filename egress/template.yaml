@@ -32,7 +32,7 @@ Resources:
               Action:
                 - 's3:PutObject'
                 - 's3:PutObjectACL'
-              Resource: !Sub 'arn:aws:s3:::v51-output-${AWS::AccountId}/*'
+              Resource: !Sub 'arn:aws:s3:::${OutputBucketName}/*'
         - Version: '2012-10-17'
           Statement:
             - Effect: Allow

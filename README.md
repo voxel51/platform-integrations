@@ -6,7 +6,7 @@ services to interact with the Voxel51 Platform.
 Available at
 [https://github.com/voxel51/platform-integrations](https://github.com/voxel51/platform-integrations).
 
-![image](https://drive.google.com/uc?id=1j0S8pLsopAqF1Ik3rf-CdyAIU4kA0sOP)
+<img src="https://drive.google.com/uc?id=1j0S8pLsopAqF1Ik3rf-CdyAIU4kA0sOP" alt="Platform-integration-diagram.png" width="40%"/>
 
 
 ## Repository Structure
@@ -27,7 +27,7 @@ typically leveraging the API client libraries.
 
 To visualize how the Ingress and Egress Apps interact with the Platform see the image below:
 
-![image](https://drive.google.com/uc?export=view&id=1s0zxWVx-WNh1NyYbHr6QKXyTfCmJjvQS)
+<img src="https://drive.google.com/uc?id=1s0zxWVx-WNh1NyYbHr6QKXyTfCmJjvQS" alt="Platform-integration-diagram.png" width="100%"/>
 
 ## Platform Ingress App
 

@@ -75,7 +75,8 @@ resources:
 
 ```bash
 VOXEL51_API_TOKEN=/path/to/your/api-token.json
-ANALYTIC_NAMES='voxel51/person-sense,voxel51/road-sense,voxel51/vehicle-sense' # optional
+ANALYTIC_NAMES='voxel51/person-sense,voxel51/road-sense,voxel51/vehicle-sense' # Optional
+EXPIRATION_SECONDS=259200 # Optional (sets ttl of data and job)
 
 sam deploy \
     --template-file packaged.yaml \
@@ -83,7 +84,8 @@ sam deploy \
     --capabilities CAPABILITY_IAM \
     --parameter-overrides \
       AnalyticNames="${ANALYTIC_NAMES}" \
-      Voxel51ApiToken=$(cat ${VOXEL51_API_TOKEN} | jq 'tostring')
+      Voxel51ApiToken=$(cat ${VOXEL51_API_TOKEN} | jq 'tostring') \
+      ExpirationSeconds=${EXPIRATION_SECONDS}
 ```
 
 To see the name of the S3 bucket created after deployment, you can use the

@@ -18,8 +18,7 @@ Slack webhooks with AWS Lambda.
 .
 ├── README.md                   <-- This README
 ├── package.json                <-- Node.js package JSON
-└── src                         <-- Source code for the integration
-    └── index.js                <-- Implementation of Slack conversion
+└── index.js                    <-- Implementation of Slack conversion
 ```
 
 

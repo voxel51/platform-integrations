@@ -103,7 +103,7 @@ def create_presigned_url(bucket_name, object_key, expiration=3600):
 
     # The response contains the presigned URL.
     expiration_date = (
-        datetime.now() + timedelta(seconds=expiration)).isoformat()
+            datetime.now() + timedelta(seconds=expiration)).isoformat()
     return response, expiration_date
 
 
@@ -124,12 +124,16 @@ def lambda_handler(event, context):
         event["Records"][0]["s3"]["object"]["key"])
     object_size = event["Records"][0]["s3"]["object"]["size"]
 
+    # Optional parameter for expiration time on data and jobs
+    expire_time = int(os.environ.get("EXPIRATION_SECONDS", 86400))
+
     try:
         # Authenticate to Voxel51 Platform.
         api = API(Token.from_str(get_secret()))
 
         # Post data as URL.
-        url, expiration_date = create_presigned_url(bucket_name, object_key)
+        url, expiration_date = create_presigned_url(bucket_name, object_key,
+                                                    expiration=expire_time)
         mime_type = mimetypes.guess_type(object_key)[0]
         metadata = api.post_data_as_url(
             url, object_key, mime_type, object_size, expiration_date
@@ -149,7 +153,7 @@ def lambda_handler(event, context):
             job_name = "{}-{}".format(object_key, analytic)
             job_metadata += [
                 api.upload_job_request(
-                    job_request, job_name, auto_start=True
+                    job_request, job_name, auto_start=True, ttl=expiration_date
                 )
             ]
 

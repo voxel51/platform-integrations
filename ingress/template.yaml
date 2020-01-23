@@ -10,6 +10,9 @@ Parameters:
   Voxel51ApiToken:
     Type: String
     Default: ''
+  ExpirationSeconds:
+    Type: Number
+    Default: 86400
 Resources:
   IngressFunction:
     Type: 'AWS::Serverless::Function'
@@ -25,6 +28,8 @@ Resources:
             Ref: AnalyticNames
           SECRET_ARN:
             Ref: ApiToken
+          EXPIRATION_SECONDS:
+            Ref: ExpirationSeconds
       Policies:
         - Version: '2012-10-17'
           Statement:

@@ -1,6 +1,6 @@
 {
   "name": "voxel51-slack-integration",
-  "version": "0.1",
+  "version": "0.1.0",
   "description": "Slack integration for the Voxel51 Platform",
   "main": "index.js",
   "dependencies": {

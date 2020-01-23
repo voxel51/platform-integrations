@@ -6,7 +6,7 @@ services to interact with the Voxel51 Platform.
 Available at
 [https://github.com/voxel51/platform-integrations](https://github.com/voxel51/platform-integrations).
 
-<img src="https://drive.google.com/uc?id=1j0S8pLsopAqF1Ik3rf-CdyAIU4kA0sOP" alt="Platform-integration-diagram.png" width="40%"/>
+<img src="https://drive.google.com/uc?id=1j0S8pLsopAqF1Ik3rf-CdyAIU4kA0sOP" alt="voxel51-logo.png" width="40%"/>
 
 
 ## Repository Structure

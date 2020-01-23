@@ -125,7 +125,7 @@ def lambda_handler(event, context):
     object_size = event["Records"][0]["s3"]["object"]["size"]
 
     # Optional parameter for expiration time on data and jobs
-    expire_time = os.environ.get("EXPIRATION_SECONDS", 86400)
+    expire_time = int(os.environ.get("EXPIRATION_SECONDS", 86400))
 
     try:
         # Authenticate to Voxel51 Platform.

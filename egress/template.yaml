@@ -18,6 +18,7 @@ Resources:
       CodeUri: src/
       Handler: app.lambda_handler
       Runtime: python3.6
+      Description: Downloads job output upon job-completion events from the Voxel51 Platform.
       Timeout: 180
       Environment:
         Variables:

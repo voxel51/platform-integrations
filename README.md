@@ -27,7 +27,7 @@ typically leveraging the API client libraries.
 
 To visualize how the Ingress and Egress Apps interact with the Platform see the image below:
 
-<img src="https://drive.google.com/uc?id=1s0zxWVx-WNh1NyYbHr6QKXyTfCmJjvQS" alt="Platform-integration-diagram.png" width="100%"/>
+<img src="https://user-images.githubusercontent.com/3719547/74191654-04b82f00-4c22-11ea-9965-ac9e46967124.png" alt="Platform-integration-diagram.png" width="100%"/>
 
 ## Platform Ingress App
 

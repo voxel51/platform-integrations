@@ -29,6 +29,7 @@ To visualize how the Ingress and Egress Apps interact with the Platform see the 
 
 <img src="https://user-images.githubusercontent.com/3719547/74191654-04b82f00-4c22-11ea-9965-ac9e46967124.png" alt="Platform-integration-diagram.png" width="100%"/>
 
+
 ## Platform Ingress App
 
 The Ingress application is an [AWS Lambda](https://aws.amazon.com/lambda) tool

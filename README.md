@@ -1,13 +1,25 @@
 # Voxel51 Platform Integrations
 
+
+<div align="center">
+
+<img src="https://user-images.githubusercontent.com/3719547/74191434-8fe4f500-4c21-11ea-8d73-555edfce0854.png" alt="voxel51-logo.png" width="40%"/>
+
+[![Discord](https://img.shields.io/badge/Discord-7289DA?logo=discord&logoColor=white)](https://discord.gg/fiftyone-community)
+[![Hugging Face](https://img.shields.io/badge/Hugging_Face-purple?style=flat&logo=huggingface)](https://huggingface.co/Voxel51)
+[![Voxel51 Blog](https://img.shields.io/badge/Voxel51_Blog-ff6d04?style=flat)](https://voxel51.com/blog)
+[![Newsletter](https://img.shields.io/badge/Newsletter-BE5B25?logo=mail.ru&logoColor=white)](https://share.hsforms.com/1zpJ60ggaQtOoVeBqIZdaaA2ykyk)
+[![LinkedIn](https://img.shields.io/badge/In-white?style=flat&label=Linked&labelColor=blue)](https://www.linkedin.com/company/voxel51)
+[![Twitter](https://img.shields.io/badge/Twitter-000000?logo=x&logoColor=white)](https://x.com/voxel51)
+[![Medium](https://img.shields.io/badge/Medium-12100E?logo=medium&logoColor=white)](https://medium.com/voxel51)
+
+</div>
+
 This repository contains example implementations of integrations with various
 services to interact with the Voxel51 Platform.
 
 Available at
 [https://github.com/voxel51/platform-integrations](https://github.com/voxel51/platform-integrations).
-
-<img src="https://user-images.githubusercontent.com/3719547/74191434-8fe4f500-4c21-11ea-8d73-555edfce0854.png" alt="voxel51-logo.png" width="40%"/>
-
 
 ## Repository Structure
 
@@ -23,14 +35,12 @@ typically leveraging the API client libraries.
 └── slack                       <-- Platform Slack integration
 ```
 
-
 ## Platform Integration Overview
 
 The diagram below depicts how Ingress and Egress Applications interact with the
 Platform:
 
 <img src="https://user-images.githubusercontent.com/3719547/74191654-04b82f00-4c22-11ea-9965-ac9e46967124.png" alt="Platform-integration-diagram.png" width="100%"/>
-
 
 ## Platform Ingress App
 
@@ -42,7 +52,6 @@ Specifically, the Lambda function is configured to listen for
 For each new data, a signed URL is generated and posted to the Platform (as
 oppposed to uploading the raw data to the Platform, which would duplicate
 storage), and job(s) are run on that data for the configured analytic(s).
-
 
 ## Platform Egress App
 
@@ -62,7 +71,6 @@ The example Lambda code in this app uses the
 output of the completed job, optionally manipulate or transform it, and then
 upload it to a configurable external S3 bucket.
 
-
 ## Platform Slack Integration
 
 This project demonstrates how to build a [Slack](https://slack.com)
@@ -74,7 +82,6 @@ provide a static URL that is configured as an endpoint for a Platform webhook.
 Internally, the Cloud Function uses the
 [JavaScript Client Library](https://github.com/voxel51/api-js) to parse the
 event data and then publishes the event to Slack.
-
 
 ## Copyright
 

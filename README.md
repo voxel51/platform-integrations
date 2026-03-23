@@ -1,6 +1,9 @@
 # Voxel51 Platform Integrations
 
+
 <div align="center">
+
+<img src="https://user-images.githubusercontent.com/3719547/74191434-8fe4f500-4c21-11ea-8d73-555edfce0854.png" alt="voxel51-logo.png" width="40%"/>
 
 [![Discord](https://img.shields.io/badge/Discord-7289DA?logo=discord&logoColor=white)](https://discord.gg/fiftyone-community)
 [![Hugging Face](https://img.shields.io/badge/Hugging_Face-purple?style=flat&logo=huggingface)](https://huggingface.co/Voxel51)
@@ -17,8 +20,6 @@ services to interact with the Voxel51 Platform.
 
 Available at
 [https://github.com/voxel51/platform-integrations](https://github.com/voxel51/platform-integrations).
-
-<img src="https://user-images.githubusercontent.com/3719547/74191434-8fe4f500-4c21-11ea-8d73-555edfce0854.png" alt="voxel51-logo.png" width="40%"/>
 
 ## Repository Structure
 
